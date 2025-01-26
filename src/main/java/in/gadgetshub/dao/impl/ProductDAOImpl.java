@@ -32,8 +32,9 @@ import in.gadgethub.utility.IDutil;
 			psmt.setInt(6, product.getProdQuantity());
 			psmt.setBlob(7, product.getProdImage());
 			int result=psmt.executeUpdate();
-			if(result==1)
-				status="Product Added Succesfully With Id :: "+product.getProdId();	
+			if(result==1) {
+				status="Product Added Succesfully With Id :: "+product.getProdId();
+			}
 		}catch(SQLException se) {
 			System.out.println("Error in add product :: "+se.getMessage());
 			se.printStackTrace();
@@ -62,8 +63,9 @@ import in.gadgethub.utility.IDutil;
 			psmt.setBlob(6,updatedProduct.getProdImage());
 			psmt.setString(7, updatedProduct.getProdId());
 			int result=psmt.executeUpdate();
-			if(result>0)
-				status="Product Updated Succesfully";	
+			if(result>0) {
+				status="Product Updated Succesfully";
+			}
 		}catch(SQLException se) {
 			System.out.println("Error in update product :: "+se.getMessage());
 			se.printStackTrace();
@@ -82,8 +84,9 @@ import in.gadgethub.utility.IDutil;
 			psmt.setDouble(1, updatedPrice);
 			psmt.setString(2,proId);
 			int count=psmt.executeUpdate();
-			if(count==1) 
+			if(count==1) {
 				status="Product price updated succesfully";
+			}
 		}catch(SQLException ex) {
 			System.out.println("Error :: Update product price "+ex.getMessage());
 			ex.printStackTrace();
@@ -94,14 +97,14 @@ import in.gadgethub.utility.IDutil;
 
 	@Override
 	public List<ProductPojo> getAllProducts() {
-			List<ProductPojo>productList=new ArrayList<ProductPojo>();
+			List<ProductPojo>productList=new ArrayList<>();
 			Connection con=DBUtil.provideConnnection();
 			Statement stmt=null;
 			ResultSet rs=null;
 			try {
 				stmt=con.createStatement();
 				 rs=stmt.executeQuery("select * from products");
-				
+
 				while(rs.next()) {
 					ProductPojo prodPojo=new ProductPojo();
 					prodPojo.setProdId(rs.getString("pid"));
@@ -176,7 +179,7 @@ import in.gadgethub.utility.IDutil;
 				prodPojo.setProdImage(rs.getBinaryStream("image"));
 				productList.add(prodPojo);
 			}
-		
+
 		}catch(SQLException ex) {
 			System.out.println("Error into searchAllProduct :: "+ex.getMessage());
 			ex.printStackTrace();
@@ -184,7 +187,7 @@ import in.gadgethub.utility.IDutil;
 		DBUtil.closeResultSet(rs);
 		DBUtil.closeStatement(psmt);
 		return productList;
-	
+
 	}
 
 	@Override
@@ -207,7 +210,7 @@ import in.gadgethub.utility.IDutil;
 				product.setProdQuantity(rs.getInt("pquantity"));
 				product.setProdImage(rs.getBinaryStream("image"));
 			}
-		
+
 		}catch(SQLException ex) {
 			System.out.println("Error into searchAllProduct :: "+ex.getMessage());
 			ex.printStackTrace();
@@ -215,7 +218,7 @@ import in.gadgethub.utility.IDutil;
 		DBUtil.closeResultSet(rs);
 		DBUtil.closeStatement(psmt);
 		return product;
-	
+
 	}
 
 	@Override
@@ -232,7 +235,7 @@ import in.gadgethub.utility.IDutil;
 			if(rs.next()) {
 				qty=rs.getInt("pquantity");
 			}
-		
+
 		}catch(SQLException ex) {
 			System.out.println("Error into getProductQuantity :: "+ex.getMessage());
 			ex.printStackTrace();
@@ -265,7 +268,7 @@ import in.gadgethub.utility.IDutil;
 			int count=psmt.executeUpdate();
 			if(count==1 && prevQuantity <updatedProduct.getProdQuantity()) {
 				status="Product updated succesfully and mail send";
-				//mail to send 
+				//mail to send
 			}else if(count==1) {
 				status="Product updated succesfully";
 			}
@@ -291,7 +294,7 @@ import in.gadgethub.utility.IDutil;
 			if(rs.next()) {
 				price=rs.getInt(1);
 			}
-		
+
 		}catch(SQLException ex) {
 			System.out.println("Error into getProductPrice :: "+ex.getMessage());
 			ex.printStackTrace();

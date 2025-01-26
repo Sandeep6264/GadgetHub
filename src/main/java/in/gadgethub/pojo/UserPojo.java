@@ -61,6 +61,6 @@ public class UserPojo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
+
+
 }

@@ -7,30 +7,35 @@
     <welcome-file>index.htm</welcome-file>
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.jsp</welcome-file>
-    <welcome-file>default.htm</welcome-file> 
+    <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
-   
-    <context-param>
+  <context-param>
     <param-name>driver</param-name>
     <param-value>com.mysql.cj.jdbc.Driver</param-value>
-    </context-param>
-  
-    <context-param>
+  </context-param>
+  <context-param>
     <param-name>url</param-name>
     <param-value>jdbc:mysql://localhost:3306/gadgethub</param-value>
-    </context-param>
-    
-    
-    <context-param>
+  </context-param>
+  <context-param>
     <param-name>username</param-name>
     <param-value>root</param-value>
-    </context-param>
-    
-    <context-param>
+  </context-param>
+  <context-param>
     <param-name>password</param-name>
     <param-value>Sandeep@123</param-value>
-    </context-param>
-     <listener>
-     <listener-class>in.gadgethub.listener.DBConnectionListener</listener-class>
-    </listener>
+  </context-param>
+  <listener>
+    <listener-class>in.gadgethub.listener.DBConnectionListener</listener-class>
+  </listener>
+  <servlet>
+    <description></description>
+    <display-name>NewServlet1</display-name>
+    <servlet-name>NewServlet1</servlet-name>
+    <servlet-class>in.gedgethub.servlet.NewServlet1</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewServlet1</servlet-name>
+    <url-pattern>/new</url-pattern>
+  </servlet-mapping>
 </web-app>
