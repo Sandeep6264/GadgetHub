@@ -1,3 +1,4 @@
+
 package in.gadgetshub.dao.impl;
 
 import java.sql.Connection;
@@ -306,26 +307,89 @@ import in.gadgethub.utility.IDutil;
 
 	@Override
 	public Boolean sellNProduct(String prodId, int n) {
-		// TODO Auto-generated method stub
-		return null;
+		boolean result=false;
+		Connection con=DBUtil.provideConnnection();
+		PreparedStatement psmt=null;
+		try {
+			psmt=con.prepareStatement("update products set pquantity=(pquantity-?) where pid=?");
+			psmt.setInt(1, n);
+			psmt.setString(2, prodId);
+			int count=psmt.executeUpdate();
+			if(count==1)
+				result=true;
+		}catch(SQLException se) {
+			System.out.println("Error in sellNProducts : "+se.getMessage());
+			se.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override
 	public List<String> getAllProductsType() {
-		// TODO Auto-generated method stub
-		return null;
+		List<String>productTypeList=new ArrayList<>();
+		Connection con=DBUtil.provideConnnection();
+		Statement stmt=null;
+		ResultSet rs=null;
+		try {
+			stmt=con.createStatement();
+			rs=stmt.executeQuery("select distinct ptype from products where avaiable='Y' ");
+			while(rs.next()) {
+				productTypeList.add(rs.getString(1));
+			}
+		}catch(SQLException se) {
+			System.out.println("Error in gtAllProductsType : "+se.getMessage());
+			se.printStackTrace();
+		}
+		DBUtil.closeStatement(stmt);
+		DBUtil.closeResultSet(rs);
+		return productTypeList;
 	}
 
 	@Override
 	public byte[] getImage(String prodId) {
-		// TODO Auto-generated method stub
-		return null;
+		byte [] arr=null;
+		Connection con=DBUtil.provideConnnection();
+		PreparedStatement psmt=null;
+		ResultSet rs=null;
+		try {
+			psmt=con.prepareStatement("SELECT IMAGE FROM PRODUCTS WHERE PID=?");
+			psmt.setString(1, prodId);
+			rs=psmt.executeQuery();
+			if(rs.next()) {
+				arr=rs.getBytes(1);
+			}
+		}catch(SQLException se) {
+			System.out.println("Error in getImage :: "+se.getMessage());;
+			se.printStackTrace();
+		
+		}
+		DBUtil.closeStatement(psmt);
+		DBUtil.closeResultSet(rs);
+		return arr;
 	}
-
 	@Override
 	public String removeProduct(String prodId) {
-		// TODO Auto-generated method stub
-		return null;
+		String status="Product Removal Failed";
+		Connection con=DBUtil.provideConnnection();
+		PreparedStatement psmt1=null;
+		PreparedStatement psmt2=null;
+		try {
+			psmt1=con.prepareStatement("UPDATE PRODUCTS SET AVAILABLE='N' WHERE PID=?");
+			psmt1.setString(1, prodId);
+			int k=psmt1.executeUpdate();
+			if(k>1) {
+				status="Product Removed Successfully";
+				psmt2=con.prepareStatement("delete from usercart where prodId=?");
+				psmt2.setString(1, prodId);
+				k=psmt2.executeUpdate();
+			}
+		}catch(SQLException se) {
+			System.out.println("Error in getImage :: "+se.getMessage());;
+			se.printStackTrace();
+		}
+		DBUtil.closeStatement(psmt1);
+		DBUtil.closeStatement(psmt2);
+		return status;
 	}
 
 }
